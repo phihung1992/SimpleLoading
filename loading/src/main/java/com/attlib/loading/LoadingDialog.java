@@ -1,6 +1,7 @@
 package com.attlib.loading;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -27,6 +28,9 @@ public class LoadingDialog extends DialogFragment {
 
     private String mLoadingColor;
 
+    private boolean mCanceledByBackButton = false;
+    private boolean mCanceledByTouchOutSite = false;
+
     public LoadingDialog setMessage(String message, String colorString) {
         mMessage = message;
         mMessageColor = colorString;
@@ -35,7 +39,12 @@ public class LoadingDialog extends DialogFragment {
 
     public LoadingDialog setLoadingColor(String loadingColor) {
         mLoadingColor = loadingColor;
+        return this;
+    }
 
+    public LoadingDialog setCanceled(boolean canceledByBackButton, boolean canceledByTouchOutSite) {
+        mCanceledByBackButton = canceledByBackButton;
+        mCanceledByTouchOutSite = canceledByTouchOutSite;
         return this;
     }
 
@@ -77,8 +86,8 @@ public class LoadingDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(mCanceledByBackButton);
+        dialog.setCanceledOnTouchOutside(mCanceledByTouchOutSite);
         return dialog;
     }
 
@@ -91,4 +100,20 @@ public class LoadingDialog extends DialogFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getDialog().setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(android.content.DialogInterface dialog,
+                                 int keyCode, android.view.KeyEvent event) {
+                if ((keyCode == android.view.KeyEvent.KEYCODE_BACK)) {
+                    return !mCanceledByBackButton;
+                }
+                // Otherwise, do nothing else
+                else return false;
+            }
+        });
+    }
 }

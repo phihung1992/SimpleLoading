@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_show_loading).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncTask<Void, Void, Void>(){
+                new AsyncTask<Void, Void, Void>() {
 
                     @Override
                     protected void onPreExecute() {
@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
         if (progressDialog == null) {
             progressDialog = LoadingDialog.newInstance()
                     .setMessage("Loading data. \nPlease wait for a few seconds or check your internet quality ...", "#327773")
-                    .setLoadingColor("#327773");
+                    .setLoadingColor("#327773")
+                    .setCanceled(true, true);
         }
 
         if (progressDialog.isAdded()) {
