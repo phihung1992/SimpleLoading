@@ -18,7 +18,7 @@ import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class LoadingDialog extends DialogFragment {
+public class SimpleLoadingDialog extends DialogFragment {
     private View mRootView;
     private ProgressBar mPbLoading;
     private TextView mTvMessage;
@@ -31,30 +31,30 @@ public class LoadingDialog extends DialogFragment {
     private boolean mCanceledByBackButton = false;
     private boolean mCanceledByTouchOutSite = false;
 
-    public LoadingDialog setMessage(String message, String colorString) {
+    public SimpleLoadingDialog setMessage(String message, String colorString) {
         mMessage = message;
         mMessageColor = colorString;
         return this;
     }
 
-    public LoadingDialog setLoadingColor(String loadingColor) {
+    public SimpleLoadingDialog setLoadingColor(String loadingColor) {
         mLoadingColor = loadingColor;
         return this;
     }
 
-    public LoadingDialog setCanceled(boolean canceledByBackButton, boolean canceledByTouchOutSite) {
+    public SimpleLoadingDialog setCanceled(boolean canceledByBackButton, boolean canceledByTouchOutSite) {
         mCanceledByBackButton = canceledByBackButton;
         mCanceledByTouchOutSite = canceledByTouchOutSite;
         return this;
     }
 
-    public static LoadingDialog newInstance() {
-        return new LoadingDialog();
+    public static SimpleLoadingDialog newInstance() {
+        return new SimpleLoadingDialog();
     }
 
     public void show(FragmentActivity activity) {
         if (activity != null && activity.getSupportFragmentManager() != null) {
-            this.show(activity.getSupportFragmentManager(), "LoadingDialog");
+            this.show(activity.getSupportFragmentManager(), "SimpleLoadingDialog");
         }
     }
 
