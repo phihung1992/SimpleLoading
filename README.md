@@ -27,11 +27,11 @@ Usage
 Impliment 2 methods: showLoading() and dismissLoading() to use easily.
 
 ```groovy
-private LoadingDialog progressDialog;
+private SimpleLoadingDialog progressDialog;
 
 private void showLoading() {
     if (progressDialog == null) {
-       progressDialog = LoadingDialog.newInstance()
+       progressDialog = SimpleLoadingDialog.newInstance()
             .setMessage("Loading data. \nPlease wait for a few seconds or check your internet quality ...", "#327773")
             .setLoadingColor("#327773")
             .setCanceled(true, true);
