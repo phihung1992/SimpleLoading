@@ -18,7 +18,7 @@ allprojects {
 ###### Module Gradle
 ```groovy
 dependencies {
-	implementation 'com.github.phihung1992:SimpleLoading:1.1'
+	implementation 'com.github.phihung1992:SimpleLoading:1.2'
 }
 ```
 
