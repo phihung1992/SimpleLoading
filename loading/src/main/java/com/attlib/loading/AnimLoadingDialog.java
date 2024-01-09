@@ -32,6 +32,8 @@ public class AnimLoadingDialog extends DialogFragment {
     private boolean mCanceledByBackButton = false;
     private boolean mCanceledByTouchOutSite = false;
 
+    private boolean mIsFullScreen = true;
+
     public AnimLoadingDialog setMessage(String message, String colorString) {
         mMessage = message;
         mMessageColor = colorString;
@@ -54,6 +56,11 @@ public class AnimLoadingDialog extends DialogFragment {
         return this;
     }
 
+    public AnimLoadingDialog setFullScreen(boolean value) {
+        mIsFullScreen = value;
+        return this;
+    }
+
     public static AnimLoadingDialog newInstance() {
         return new AnimLoadingDialog();
     }
@@ -67,17 +74,24 @@ public class AnimLoadingDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.dialog_animation_loading, container, false);
+        if (mIsFullScreen) {
+            mRootView = inflater.inflate(R.layout.dialog_animation_loading, container, false);
+        } else {
+            mRootView = inflater.inflate(R.layout.dialog_animation_loading_wrap_content, container, false);
+        }
+
         initViews();
         return mRootView;
     }
 
     private void initViews() {
         LinearLayout lnMain = mRootView.findViewById(R.id.ln_main);
-        if (mBackgroundColor == 0) {
-            lnMain.setBackgroundColor(Color.WHITE);
-        }else {
-            lnMain.setBackgroundColor(mBackgroundColor);
+        if (mIsFullScreen) {
+            if (mBackgroundColor == 0) {
+                lnMain.setBackgroundColor(Color.WHITE);
+            } else {
+                lnMain.setBackgroundColor(mBackgroundColor);
+            }
         }
 
         mIvAnimationImage = mRootView.findViewById(R.id.iv_animation_image);
@@ -109,7 +123,12 @@ public class AnimLoadingDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
         if (getDialog().getWindow() != null) {
-            getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            if (mIsFullScreen) {
+                getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            } else {
+                getDialog().getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            }
+
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
     }
